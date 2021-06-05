@@ -5,14 +5,21 @@ cmake_minimum_required (VERSION 3.8)
 
 project ("buffr")
 
+add_subdirectory("external/glfw")
+
 set(SOURCES
     src/main.cpp
 )
 
 # Add source to this project's executable.
-add_executable(hello_headers ${SOURCES})
+add_executable(buffr WIN32 ${SOURCES})
 
-target_include_directories(hello_headers
-    PRIVATE 
-        ${PROJECT_SOURCE_DIR}/include
+find_package(OpenGL REQUIRED)
+
+target_include_directories(buffr PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(buffr PRIVATE ${PROJECT_SOURCE_DIR}/external/glfw/include)
+
+target_link_libraries(buffr
+    glfw
+    opengl32
 )
