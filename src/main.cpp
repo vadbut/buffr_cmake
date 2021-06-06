@@ -1,83 +1,47 @@
-﻿// buffr_cmake.cpp : Defines the entry point for the application.
-//
+﻿#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
-#include "main.h"
 
-#include <windows.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
-
-// change this to int main() to allow the console. 
-int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char*, int nShowCmd)
+int main()
 {
-    GLFWwindow* window;
-    int windowSizeW = 640, windowSizeH = 480;
-    /* Initialize the library */
-    if (!glfwInit())
-        return -1;
+    const sf::Color windowColor{ sf::Color(0, 0, 0, 0) };
+    const sf::Color windowColorGrabbed{ sf::Color(255, 255, 0, 64) };
 
-    glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
-    int count;
-    int windowWidth, windowHeight;
-    int monitorX, monitorY;
+    sf::RenderWindow window(sf::VideoMode(800, 600), "", sf::Style::None);
 
-    // I am assuming that main monitor is in the 0 position
-    GLFWmonitor** monitors = glfwGetMonitors(&count);
-    const GLFWvidmode* videoMode = glfwGetVideoMode(monitors[0]);
-    windowWidth = (videoMode->width / 2.0) - (windowSizeW / 2);
-    windowHeight = (videoMode->height / 2.0) - (windowSizeH / 2);
-
-    glfwGetMonitorPos(monitors[0], &monitorX, &monitorY);
-
-    // set the visibility window hint to false for subsequent window creation
-    glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-
-    /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(windowSizeW, windowSizeH, "Hello World", NULL, NULL);
-    if (!window)
+    sf::Vector2i grabbedOffset;
+    bool grabbedWindow = false;
+    while (window.isOpen())
     {
-        glfwTerminate();
-        return -1;
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed || event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+                window.close();
+            else if (event.type == sf::Event::MouseButtonPressed)
+            {
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    grabbedOffset = window.getPosition() - sf::Mouse::getPosition();
+                    grabbedWindow = true;
+            }
     }
-
-    /* Make the window's context current */
-    glfwMakeContextCurrent(window);
-
-    // reset the window hints to default
-    glfwDefaultWindowHints();
-
-    glfwSetWindowPos(window,
-        monitorX + (videoMode->width - windowWidth) / 2,
-        monitorY + (videoMode->height - windowHeight) / 2);
-
-    // show the window
-    glfwShowWindow(window);
-    // uncomment following line to see the border of window
-    glfwSetWindowAttrib(window, GLFW_DECORATED, GLFW_FALSE);
-
-    /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
-    {
-        /* Render here */
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        glBegin(GL_QUADS);
-        glColor3f(0, 0, 1);
-        glVertex3f(-0.5, -0.5, -1);
-        glColor3f(0, 1, 0);
-        glVertex3f(0.5, -0.5, -1);
-        glColor3f(1, 0, 1);
-        glVertex3f(0.5, 0.5, -1);
-        glColor3f(1, 0, 1);
-        glVertex3f(-0.5, 0.5, -1);
-        glEnd();
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
-
-        /* Poll for and process events */
-        glfwPollEvents();
+            else if (event.type == sf::Event::MouseButtonReleased)
+            {
+                if (event.mouseButton.button == sf::Mouse::Left)
+                    grabbedWindow = false;
+            }
+            else if (event.type == sf::Event::MouseMoved)
+            {
+                if (grabbedWindow)
+                    window.setPosition(sf::Mouse::getPosition() + grabbedOffset);
+            }
+}
+        sf::Color clearColor{ windowColor };
+        if (grabbedWindow)
+            clearColor = windowColorGrabbed;
+        
+        window.clear(clearColor);
+        window.display();
     }
-
-    glfwTerminate();
-    return 0;
 }
