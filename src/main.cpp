@@ -24,8 +24,8 @@ int main()
                 {
                     grabbedOffset = window.getPosition() - sf::Mouse::getPosition();
                     grabbedWindow = true;
-            }
-    }
+                }
+            }   
             else if (event.type == sf::Event::MouseButtonReleased)
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
@@ -36,7 +36,7 @@ int main()
                 if (grabbedWindow)
                     window.setPosition(sf::Mouse::getPosition() + grabbedOffset);
             }
-}
+        }
         sf::Color clearColor{ windowColor };
         if (grabbedWindow)
             clearColor = windowColorGrabbed;

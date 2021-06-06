@@ -1,2 +1,4 @@
-ToDo:  
-- "Game launcher creator"? (allows updates) + game installer creator?
+How to clone repo:  
+git clone https://github.com/vadbut/buffr_cmake  
+cd buffr_cmake  
+git submodule update --init --recursive  
