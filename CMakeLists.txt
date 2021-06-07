@@ -5,8 +5,9 @@ cmake_minimum_required (VERSION 3.8)
 
 project ("buffr")
 
+# Add SFML and use it statically.
+set(BUILD_SHARED_LIBS FALSE)
 add_subdirectory("external/SFML")
-
 
 set(SOURCES
     src/main.cpp
