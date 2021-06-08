@@ -22,6 +22,7 @@ target_include_directories(buffr PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(buffr PRIVATE ${PROJECT_SOURCE_DIR}/external/SFML/include)
 
 target_link_libraries(buffr
+    dwmapi 
     sfml-main
     sfml-window
     sfml-graphics
