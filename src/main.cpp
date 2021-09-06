@@ -5,26 +5,14 @@
 int main()
 {
     sf::Image backgroundImage;
-    backgroundImage.loadFromFile("media/background.png");
+    backgroundImage.loadFromFile("media/login_back.png");
 
     sf::Texture backgroundTexture;
-    sf::Texture im1_texture;
-    sf::Texture im2_texture;
 
     sf::Sprite backgroundSprite;
-    sf::Sprite im1;
-    sf::Sprite im2;
 
     backgroundTexture.loadFromImage(backgroundImage);
     backgroundSprite.setTexture(backgroundTexture);
-
-    im1_texture.loadFromFile("media/im1.png");
-    im1.setTexture(im1_texture);
-    im1.setPosition(100.f, backgroundImage.getSize().y / 2.f);
-
-    im2_texture.loadFromFile("media/im2.png");
-    im2.setTexture(im2_texture);
-    im2.setPosition(400.f, backgroundImage.getSize().y / 2.f);
 
     sf::RenderWindow window(sf::VideoMode(backgroundImage.getSize().x, backgroundImage.getSize().y), "", sf::Style::None);
 
@@ -36,8 +24,6 @@ int main()
 
     sf::Vector2i grabbedOffset;
     bool grabbedWindow = false;
-    bool leftClickPressed = false;
-
 
     while (window.isOpen())
     {
@@ -52,9 +38,6 @@ int main()
                 {
                     grabbedOffset = window.getPosition() - sf::Mouse::getPosition();
                     grabbedWindow = true;
-                    leftClickPressed = true;
-                    //const sf::Vector2u sz(1000, 2000);
-                    //window.setSize(sz);
                 }
             }
             else if (event.type == sf::Event::MouseButtonReleased)
@@ -62,9 +45,6 @@ int main()
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     grabbedWindow = false;
-                    leftClickPressed = false;
-                    //const sf::Vector2u sz(739,195);
-                    //window.setSize(sz);
                 }
             }
             else if (event.type == sf::Event::MouseMoved)
@@ -76,8 +56,6 @@ int main()
 
         window.clear(sf::Color::Transparent);
         window.draw(backgroundSprite);
-        window.draw(im1);
-        if (leftClickPressed) { window.draw(im2); }
         window.display();
     }
 }
