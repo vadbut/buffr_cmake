@@ -2,7 +2,6 @@
 #include <SFML/Graphics.hpp>
 #include <dwmapi.h>
 
-
 int main()
 {
     sf::Image backgroundImage;
@@ -40,8 +39,6 @@ int main()
     bool leftClickPressed = false;
 
 
-
-
     while (window.isOpen())
     {
         sf::Event event;
@@ -56,6 +53,8 @@ int main()
                     grabbedOffset = window.getPosition() - sf::Mouse::getPosition();
                     grabbedWindow = true;
                     leftClickPressed = true;
+                    //const sf::Vector2u sz(1000, 2000);
+                    //window.setSize(sz);
                 }
             }
             else if (event.type == sf::Event::MouseButtonReleased)
@@ -64,6 +63,8 @@ int main()
                 {
                     grabbedWindow = false;
                     leftClickPressed = false;
+                    //const sf::Vector2u sz(739,195);
+                    //window.setSize(sz);
                 }
             }
             else if (event.type == sf::Event::MouseMoved)
